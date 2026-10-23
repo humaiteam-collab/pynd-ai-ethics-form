@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitleTag">เครื่องมือตรวจสอบและรับรองจริยธรรมการใช้ปัญญาประดิษฐ์ในงานวิจัย</title>
+<link rel="stylesheet" href="fonts/sarabun.css">
+<style>
+  :root{
+    --navy:#1c3644; --navy-light:#2b4d61; --navy-pale:#e7edf0;
+    --gold:#b3822f; --gold-pale:#f3e7d0;
+    --paper:#f6f4ee; --card:#ffffff; --border:#dcd6c8;
+    --text:#232a2e; --text-soft:#5c6670;
+    --green:#2f7a53; --green-bg:#e5f3ea;
+    --amber:#a9741e; --amber-bg:#faf0da;
+    --red:#b3403a; --red-bg:#fbe8e6;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--text);
+    font-family:'Sarabun',sans-serif; font-size:16px; line-height:1.65;
+    padding-bottom:80px;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:0 20px;}
+  header.top{background:var(--navy); color:#fff; padding:38px 0 30px;}
+  header.top h1{
+    font-family:'Taviraj',serif; font-weight:600; font-size:1.75rem;
+    margin:0 0 6px; line-height:1.35;
+  }
+  header.top .sub{font-size:1.0rem; opacity:.85; margin:0 0 4px;}
+  header.top .ver{
+    display:inline-block; margin-top:10px; font-size:.85rem;
+    background:rgba(255,255,255,.12); padding:4px 12px; border-radius:999px;
+  }
+  .toolbar{
+    position:sticky; top:0; z-index:50; background:#fff;
+    border-bottom:1px solid var(--border); box-shadow:0 2px 8px rgba(0,0,0,.05);
+  }
+  .toolbar .wrap{display:flex; gap:10px; flex-wrap:wrap; align-items:center; padding:10px 20px;}
+  .btn{
+    font-family:'Sarabun',sans-serif; font-size:.92rem; font-weight:600;
+    border:1px solid var(--navy); background:#fff; color:var(--navy);
+    padding:8px 16px; border-radius:8px; cursor:pointer; transition:.15s;
+  }
+  .btn:hover{background:var(--navy-pale);}
+  .btn.primary{background:var(--navy); color:#fff;}
+  .btn.primary:hover{background:var(--navy-light);}
+  .btn.gold{background:var(--gold); color:#fff; border-color:var(--gold);}
+  .btn.gold:hover{opacity:.9;}
+  .btn.small{padding:5px 11px; font-size:.82rem;}
+  .btn.danger-outline{border-color:var(--red); color:var(--red);}
+  .btn.danger-outline:hover{background:var(--red-bg);}
+  input[type=file]{display:none;}
+
+  .lang-switch{
+    margin-left:auto; display:flex; border:1px solid var(--navy); border-radius:999px; overflow:hidden;
+  }
+  .lang-switch button{
+    font-family:'Sarabun',sans-serif; font-weight:700; font-size:.85rem; padding:7px 16px;
+    border:none; background:#fff; color:var(--navy); cursor:pointer;
+  }
+  .lang-switch button.active{background:var(--navy); color:#fff;}
+
+  section.block{margin:34px 0;}
+  .section-head{
+    display:flex; align-items:baseline; gap:12px; margin-bottom:14px;
+    border-bottom:2px solid var(--navy); padding-bottom:8px;
+  }
+  .section-head .num{
+    font-family:'Taviraj',serif; font-weight:600; font-size:1.5rem; color:var(--gold);
+  }
+  .section-head h2{font-size:1.2rem; margin:0; color:var(--navy);}
+  .hint{color:var(--text-soft); font-size:.88rem; font-style:italic; margin:0 0 14px;}
+  .note-box{
+    background:var(--gold-pale); border:1px solid #e2cd9c; border-radius:var(--radius);
+    padding:14px 18px; font-size:.92rem; margin:14px 0;
+  }
+  .instructions{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:18px 22px; font-size:.95rem; color:var(--text-soft);
+  }
+
+  table.overview{width:100%; border-collapse:collapse; font-size:.9rem; margin-top:10px;}
+  table.overview th, table.overview td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  table.overview th{background:var(--navy-pale); color:var(--navy);}
+
+  details.ref{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:14px 20px; margin-top:16px;
+  }
+  details.ref summary{cursor:pointer; font-weight:600; color:var(--navy);}
+  table.master{width:100%; border-collapse:collapse; font-size:.85rem; margin-top:12px;}
+  table.master th, table.master td{border:1px solid var(--border); padding:6px 9px; text-align:left;}
+  table.master th{background:var(--navy-pale); color:var(--navy);}
+  .tag-scored{background:var(--green-bg);}
+  .tag-flag{background:var(--red-bg);}
+  .tag-none{background:#f1f0eb;}
+  .legend-line{font-size:.82rem; margin-top:8px; color:var(--text-soft);}
+  .swatch{display:inline-block; padding:1px 8px; border-radius:4px; font-weight:600;}
+
+  .field-grid{display:flex; flex-wrap:wrap; gap:14px 20px;}
+  .field-grid > div{flex:1 1 260px;}
+  .field-grid .full{flex:1 1 100%;}
+  label.field-label{display:block; font-weight:600; font-size:.9rem; margin-bottom:4px; color:var(--navy);}
+  input[type=text], input[type=date], input[type=number], textarea, select{
+    width:100%; font-family:'Sarabun',sans-serif; font-size:.95rem;
+    padding:9px 11px; border:1px solid var(--border); border-radius:8px; background:#fff; color:var(--text);
+  }
+  textarea{resize:vertical; min-height:56px;}
+  input:focus, textarea:focus, select:focus{outline:2px solid var(--gold); outline-offset:1px;}
+
+  .radio-row{display:flex; gap:22px; flex-wrap:wrap; padding:6px 0;}
+  .radio-row label{font-size:.95rem; display:flex; align-items:center; gap:6px; cursor:pointer;}
+
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:20px 22px; margin-bottom:18px; box-shadow:0 1px 4px rgba(0,0,0,.04);
+  }
+  .entry-card{border-left:5px solid var(--gold);}
+  .entry-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+  .entry-head .title{font-weight:700; color:var(--navy); font-size:1.05rem;}
+  .q-label{font-weight:600; font-size:.95rem; margin:16px 0 6px; color:var(--navy);}
+  .q-hint{font-weight:400; font-style:italic; color:var(--text-soft); font-size:.82rem;}
+  .opt{display:flex; align-items:flex-start; gap:8px; padding:4px 0; font-size:.92rem;}
+  .opt input{margin-top:4px; flex-shrink:0;}
+  .opt .code{font-weight:700; color:var(--navy); margin-right:2px;}
+  .opt .note{color:var(--text-soft); font-size:.85rem;}
+  .score-chip{
+    display:inline-block; background:var(--green-bg); color:var(--green); font-weight:700;
+    font-size:.78rem; padding:1px 7px; border-radius:999px; margin-left:6px;
+  }
+  .empty-state{
+    text-align:center; padding:30px 10px; color:var(--text-soft); font-size:.92rem;
+    border:1.5px dashed var(--border); border-radius:var(--radius);
+  }
+
+  .summary-grid{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:18px;}
+  .stat{flex:1 1 180px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px; text-align:center;}
+  .stat .val{font-family:'Taviraj',serif; font-size:1.7rem; font-weight:600; color:var(--navy);}
+  .stat .lbl{font-size:.78rem; color:var(--text-soft); margin-top:2px;}
+  .formula-box{
+    background:var(--navy-pale); border-radius:var(--radius); padding:16px 20px; font-size:.92rem; margin:14px 0;
+  }
+  .formula-box code{font-size:.96rem;}
+  .gauge-wrap{margin:20px 0;}
+  .gauge-track{
+    position:relative; height:26px; background:#eae7dd; border-radius:999px; overflow:hidden; border:1px solid var(--border);
+  }
+  .gauge-fill{height:100%; width:0%; background:var(--text-soft); transition:width .35s ease, background .35s ease;}
+  .gauge-threshold{
+    position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--navy); left:40%;
+  }
+  .gauge-threshold::after{
+    content:attr(data-label); position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+    font-size:.72rem; color:var(--navy); white-space:nowrap;
+  }
+  .result-badge{
+    display:inline-block; margin-top:14px; padding:8px 16px; border-radius:8px; font-weight:700; font-size:.95rem;
+  }
+  .result-badge.ok{background:var(--green-bg); color:var(--green);}
+  .result-badge.warn{background:var(--amber-bg); color:var(--amber);}
+  .result-badge.danger{background:var(--red-bg); color:var(--red);}
+  .result-badge.neutral{background:#eee; color:var(--text-soft);}
+  .threshold-row{display:flex; align-items:center; gap:10px; margin:10px 0; font-size:.92rem; flex-wrap:wrap;}
+  .threshold-row input{width:80px;}
+
+  .cert-item{display:flex; gap:9px; padding:7px 0; font-size:.92rem; align-items:flex-start; border-bottom:1px dashed var(--border);}
+  .cert-item:last-child{border-bottom:none;}
+  .cert-item input{margin-top:3px; flex-shrink:0;}
+
+  .sig-row{display:flex; gap:14px; margin-bottom:16px; align-items:end; flex-wrap:wrap;}
+  .sig-row > div:first-child{flex:2 1 260px;}
+  .sig-row > div:last-child{flex:1 1 140px;}
+
+  footer{text-align:center; color:var(--text-soft); font-size:.82rem; padding:30px 0;}
+
+  @media (max-width:640px){
+    .field-grid > div{flex:1 1 100%;}
+    .stat{flex:1 1 45%;}
+  }
+
+  @media print{
+    .toolbar, .btn, #addEntryBtn, .no-print{display:none !important;}
+    header.top{background:#fff !important; color:#000 !important; padding:10px 0;}
+    header.top .ver{background:none; border:1px solid #000; color:#000;}
+    body{background:#fff;}
+    .card{box-shadow:none; border:1px solid #999;}
+  }
+</style>
+</head>
+<body>
+<style>
+  body:not(.authed) > *:not(#authGate):not(script):not(style){display:none!important;}
+  body.authed #authGate{display:none;}
+  #authGate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--paper);}
+  #authGate .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:420px;width:100%;box-shadow:0 6px 24px rgba(0,0,0,.08);}
+  #authGate h2{margin:0 0 6px;font-size:1.2rem;color:var(--navy);}
+  #authGate p{margin:0 0 14px;color:var(--text-soft);font-size:.92rem;}
+  #authGate input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font:inherit;margin-bottom:10px;}
+  #authGate button{width:100%;}
+  #authMsg{margin-top:12px;font-size:.9rem;min-height:1.2em;}
+  #authSignOut{position:fixed;right:12px;bottom:12px;z-index:100;}
+  @media print{#authSignOut{display:none;}}
+</style>
+<div id="authGate"><div class="card">
+  <h2>เข้าสู่ระบบด้วยอีเมล</h2>
+  <p>กรอกอีเมลที่ได้รับอนุญาต ระบบจะส่งลิงก์เข้าสู่ระบบไปให้ (ไม่ต้องใช้รหัสผ่าน)</p>
+  <input id="authEmail" type="email" placeholder="name@mcu.ac.th" autocomplete="email">
+  <button id="authSend" type="button" class="btn primary">ส่งลิงก์เข้าสู่ระบบ</button>
+  <div id="authMsg"></div>
+</div></div>
+<button id="authSignOut" type="button" class="btn small">ออกจากระบบ</button>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="auth-gate.js"></script>
+
+<header class="top">
+  <div class="wrap">
+    <h1 data-i18n="h1"></h1>
+    <p class="sub" data-i18n="hsub1"></p>
+    <p class="sub" style="font-size:.88rem;" data-i18n="hsub2"></p>
+    <span class="ver" data-i18n="hbadge"></span>
+  </div>
+</header>
+
+<div class="toolbar no-print">
+  <div class="wrap">
+    <button class="btn primary" id="addEntryBtnTop" data-i18n="btnAddEntry"></button>
+    <button class="btn gold" id="exportBtn" data-i18n="btnExport"></button>
+    <button class="btn" id="importLabelBtn" data-i18n="btnImport"></button>
+    <input type="file" id="importInput" accept="application/json">
+    <button class="btn" id="printBtn" data-i18n="btnPrint"></button>
+    <div class="lang-switch">
+      <button id="langTh" data-lang="th">ไทย</button>
+      <button id="langEn" data-lang="en">EN</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="block">
+    <div class="instructions">
+      <strong data-i18n="instrLabel"></strong> <span data-i18n="instrBody"></span>
+    </div>
+
+    <table class="overview" id="overviewTable"></table>
+
+    <details class="ref">
+      <summary data-i18n="refSummary"></summary>
+      <table class="master" id="masterTable"></table>
+      <p class="legend-line" id="masterLegend"></p>
+    </details>
+  </section>
+
+  <section class="block">
+    <div class="section-head"><span class="num">๑</span><h2 data-i18n="s1title"></h2></div>
+    <div class="card">
+      <div class="field-grid">
+        <div><label class="field-label" data-i18n="gNameLbl"></label><input type="text" id="gName"></div>
+        <div><label class="field-label" data-i18n="gCoLbl"></label><input type="text" id="gCoAuthors"></div>
+        <div><label class="field-label" data-i18n="gInstLbl"></label><input type="text" id="gInstitution"></div>
+        <div><label class="field-label" data-i18n="gTypeLbl"></label>
+          <select id="gWorkType">
+            <option value="" data-i18n="optChoose"></option>
+            <option value="thesis" data-i18n="optThesis"></option>
+            <option value="dissertation" data-i18n="optDissertation"></option>
+            <option value="researchArticle" data-i18n="optResearchArticle"></option>
+            <option value="academicArticle" data-i18n="optAcademicArticle"></option>
+            <option value="report" data-i18n="optReport"></option>
+            <option value="other" data-i18n="optOther"></option>
+          </select>
+        </div>
+        <div class="full"><label class="field-label" data-i18n="gTitleLbl"></label><input type="text" id="gTitle"></div>
+        <div><label class="field-label" data-i18n="gAdvisorLbl"></label><input type="text" id="gAdvisor"></div>
+        <div><label class="field-label" data-i18n="gPeriodLbl"></label><input type="text" id="gPeriod"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="section-head"><span class="num">๒</span><h2 data-i18n="s2title"></h2></div>
+    <div class="card">
+      <div class="radio-row">
+        <label><input type="radio" name="decl" value="no" id="declNo"> <span data-i18n="declNoLbl"></span></label>
+        <label><input type="radio" name="decl" value="yes" id="declYes" checked> <span data-i18n="declYesLbl"></span></label>
+      </div>
+    </div>
+  </section>
+
+  <div id="aiSections">
+
+  <section class="block">
+    <div class="section-head"><span class="num">๓</span><h2 data-i18n="s3title"></h2></div>
+    <p class="hint" data-i18n="s3hint"></p>
+    <div id="entriesContainer"></div>
+    <button class="btn primary no-print" id="addEntryBtn" data-i18n="btnAddEntry"></button>
+  </section>
+
+  <section class="block">
+    <div class="section-head"><span class="num">๔</span><h2 data-i18n="s4title"></h2></div>
+    <div class="card">
+      <div class="summary-grid">
+        <div class="stat"><div class="val" id="sumEntries">0</div><div class="lbl" data-i18n="statEntries"></div></div>
+        <div class="stat"><div class="val" id="sumL">0</div><div class="lbl" data-i18n="statSumL"></div></div>
+        <div class="stat"><div class="val" id="highRiskCount">0</div><div class="lbl" data-i18n="statHighRisk"></div></div>
+        <div class="stat"><div class="val" id="pendingVerifyCount">0</div><div class="lbl" data-i18n="statPendingV4"></div></div>
+      </div>
+
+      <div class="formula-box">
+        <strong data-i18n="formulaLabel"></strong> <span id="formulaText"></span><br>
+        <code id="formulaLine"></code>
+      </div>
+
+      <div class="threshold-row">
+        <label for="thresholdInput"><strong data-i18n="thresholdLbl"></strong></label>
+        <input type="number" id="thresholdInput" value="40" min="0" max="100"> %
+        <span class="hint" style="margin:0;" data-i18n="thresholdHint"></span>
+      </div>
+
+      <div class="gauge-wrap">
+        <div class="gauge-track">
+          <div class="gauge-fill" id="gaugeFill"></div>
+          <div class="gauge-threshold" id="gaugeThresholdMark"></div>
+        </div>
+      </div>
+      <div id="percentDisplay" style="font-family:'Taviraj',serif; font-size:1.6rem; font-weight:600; color:var(--navy);">0.0%</div>
+      <div class="result-badge neutral" id="percentResult"></div>
+
+      <div class="note-box" style="margin-top:18px;" id="ivNote"></div>
+
+      <div style="margin-top:18px;">
+        <label class="field-label" data-i18n="overallRiskLbl"></label>
+        <div class="radio-row">
+          <label><input type="radio" name="overallRisk" value="low"> <span data-i18n="riskLow"></span></label>
+          <label><input type="radio" name="overallRisk" value="mid"> <span data-i18n="riskMid"></span></label>
+          <label><input type="radio" name="overallRisk" value="high"> <span data-i18n="riskHigh"></span></label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="section-head"><span class="num">๕</span><h2 data-i18n="s5title"></h2></div>
+    <p class="hint" data-i18n="s5hint"></p>
+    <div class="card" id="certList"></div>
+  </section>
+
+  <section class="block">
+    <div class="section-head"><span class="num">๖</span><h2 data-i18n="s6title"></h2></div>
+    <p class="hint" data-i18n="s6hint"></p>
+    <div class="card" id="advisorList"></div>
+  </section>
+
+  </div><!-- /aiSections -->
+
+  <section class="block">
+    <div class="section-head"><span class="num">๗</span><h2 data-i18n="s7title"></h2></div>
+    <div class="card">
+      <div class="sig-row">
+        <div><label class="field-label" data-i18n="sigResearcherLbl"></label><input type="text" id="sigResearcher"></div>
+        <div><label class="field-label" data-i18n="sigDateLbl"></label><input type="date" id="sigResearcherDate"></div>
+      </div>
+      <div class="sig-row">
+        <div><label class="field-label" data-i18n="sigCoLbl"></label><input type="text" id="sigCoAuthor"></div>
+        <div><label class="field-label" data-i18n="sigDateLbl"></label><input type="date" id="sigCoAuthorDate"></div>
+      </div>
+      <div class="sig-row">
+        <div><label class="field-label" data-i18n="sigAdvisorLbl"></label><input type="text" id="sigAdvisor"></div>
+        <div><label class="field-label" data-i18n="sigDateLbl"></label><input type="date" id="sigAdvisorDate"></div>
+      </div>
+      <p class="hint" style="margin-top:10px;" data-i18n="sigNote"></p>
+    </div>
+  </section>
+
+  <footer data-i18n="footerText"></footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var state = { counter: 0, entries: [], lang: "th" };
+
+  // ============== Static UI text ==============
+  var I18N = {
+    th: {
+      h1: "เครื่องมือตรวจสอบและรับรองจริยธรรมการใช้ปัญญาประดิษฐ์ในงานวิจัย",
+      hsub1: "AI Research-Use Ethics Declaration and Verification Instrument",
+      hsub2: "สำหรับงานวิจัย วิทยานิพนธ์ ดุษฎีนิพนธ์ บทความวิชาการ และรายงานการค้นคว้าอิสระ ทุกสาขาวิชา",
+      hbadge: "ฉบับอิเล็กทรอนิกส์ — คำนวณ % อัตโนมัติ",
+      btnAddEntry: "+ เพิ่มชุดบันทึกการใช้งาน",
+      btnExport: "ดาวน์โหลดข้อมูล (JSON)",
+      btnImport: "นำเข้าข้อมูลเดิม",
+      btnPrint: "พิมพ์ / บันทึกเป็น PDF",
+      instrLabel: "คำชี้แจงการใช้เครื่องมือ:",
+      instrBody: "เครื่องมือนี้ใช้บันทึกและรับรองการใช้เทคโนโลยีปัญญาประดิษฐ์ (AI) ในกระบวนการจัดทำผลงานทางวิชาการ เพื่อสร้างความโปร่งใส ตรวจสอบย้อนกลับได้ และป้องกันการละเมิดจรรยาบรรณทางวิชาการหรือทรัพย์สินทางปัญญา ทุกตัวเลือกมีทั้งรหัสกำกับและคำอธิบายในตัว กรอกได้โดยไม่ต้องเปิดเอกสารอื่นประกอบ ระดับการพึ่งพา AI จะคำนวณเป็นเปอร์เซ็นต์ให้อัตโนมัติในส่วนที่ ๔ เนื่องจากหน้านี้ไม่บันทึกข้อมูลอัตโนมัติ โปรดกด “ดาวน์โหลดข้อมูล (JSON)” เป็นระยะเพื่อสำรองข้อมูล และ “นำเข้าข้อมูลเดิม” เพื่อกลับมาทำงานต่อในภายหลัง",
+      refSummary: "แสดง/ซ่อนตารางสรุปรหัสและค่าคะแนนทั้งหมด (อ้างอิงด่วน)",
+      s1title: "ข้อมูลทั่วไปของผู้วิจัยและผลงาน",
+      gNameLbl: "ชื่อ–นามสกุลผู้วิจัย/ผู้เขียนหลัก",
+      gCoLbl: "ผู้เขียนร่วม (ถ้ามี)",
+      gInstLbl: "หน่วยงาน/สถาบัน/หลักสูตร",
+      gTypeLbl: "ประเภทผลงาน",
+      optChoose: "— เลือก —",
+      optThesis: "วิทยานิพนธ์", optDissertation: "ดุษฎีนิพนธ์", optResearchArticle: "บทความวิจัย",
+      optAcademicArticle: "บทความวิชาการ", optReport: "รายงานการค้นคว้าอิสระ", optOther: "อื่น ๆ",
+      gTitleLbl: "ชื่อผลงาน",
+      gAdvisorLbl: "อาจารย์ที่ปรึกษา/หัวหน้าโครงการ (ถ้ามี)",
+      gPeriodLbl: "ช่วงเวลาที่จัดทำผลงาน",
+      s2title: "คำประกาศเบื้องต้นการใช้เทคโนโลยีปัญญาประดิษฐ์",
+      declNoLbl: "ไม่ได้ใช้เทคโนโลยีปัญญาประดิษฐ์ในผลงานนี้ (ข้ามไปส่วนที่ ๗)",
+      declYesLbl: "ได้ใช้เทคโนโลยีปัญญาประดิษฐ์ (กรอกส่วนที่ ๓-๖ ให้ครบ)",
+      s3title: "ชุดบันทึกการใช้งานปัญญาประดิษฐ์",
+      s3hint: "กรอก 1 ชุดต่อการใช้ AI 1 เครื่องมือ × 1 ลักษณะการใช้งาน × 1 ส่วนของงาน หากใช้ AI หลายตัวในขั้นตอนเดียวกัน หรือใช้ตัวเดียวกันในหลายส่วนที่ลักษณะต่างกัน ให้เพิ่มชุดใหม่แยกกันเสมอ",
+      emptyState: "ยังไม่มีชุดบันทึก กดปุ่ม “+ เพิ่มชุดบันทึกการใช้งาน” เพื่อเริ่มต้น",
+      entryTitlePrefix: "ชุดบันทึกที่",
+      btnRemove: "ลบชุดนี้",
+      fToolLbl: "เครื่องมือ AI ที่ใช้ (ชื่อ)",
+      fVersionLbl: "เวอร์ชัน/รุ่น",
+      fDateLbl: "วันที่ใช้งาน",
+      fPartLbl: "ส่วนของงานที่ใช้",
+      fPartPh: "เช่น บทที่ ๒ หัวข้อ ๒.๓",
+      q1: "๑) หมวดการใช้งาน", q1hint: "เลือกได้มากกว่า 1 ข้อ",
+      q2: "๒) ระดับขอบเขตการใช้งาน", q2hint: "เลือกเพียง 1 ข้อที่ตรงที่สุด",
+      q3: "๓) ข้อมูล/เอกสารที่ป้อนเข้าระบบ AI", q3hint: "เลือกได้มากกว่า 1 ข้อ",
+      q4: "๔) คำสั่ง (Prompt) ที่ใช้โดยสรุป",
+      q5: "๕) วิธีตรวจสอบผลลัพธ์", q5hint: "เลือกได้มากกว่า 1 ข้อ",
+      q6: "๖) ระดับความมั่นใจต่อความถูกต้องของผลลัพธ์นี้",
+      q7: "๗) ท่านยอมรับความรับผิดชอบต่อผลลัพธ์ส่วนนี้ทั้งหมดหรือไม่",
+      confHigh: "มั่นใจมาก", confMid: "ปานกลาง", confLow: "ไม่มั่นใจ",
+      acctYes: "ยอมรับ", acctNo: "ไม่ยอมรับ",
+      acctReasonPh: "หากไม่ยอมรับ โปรดระบุเหตุผล/แผนดำเนินการ",
+      s4title: "สรุปและประเมินความเสี่ยงโดยรวม",
+      statEntries: "ชุดบันทึกทั้งหมด", statSumL: "ผลรวมคะแนน L",
+      statHighRisk: "ชุดข้อมูลนำเข้าเสี่ยงสูง", statPendingV4: "ชุดยังไม่ได้ตรวจสอบ (V4)",
+      formulaLabel: "สูตร:", formulaText: "ระดับการพึ่งพา AI เฉลี่ย (%) = [ผลรวมคะแนน L ÷ (5 × จำนวนชุดบันทึก)] × 100",
+      thresholdLbl: "เกณฑ์ที่ยอมรับได้ (กำหนดเอง):",
+      thresholdHint: "(ตัวอย่างทั่วไปคือไม่เกิน 40% ปรับได้ตามดุลยพินิจของผู้วิจัย/สถาบัน)",
+      thresholdGaugeLabel: "เกณฑ์",
+      resultNeutral: "ยังไม่มีชุดบันทึก",
+      resultOk: "อยู่ในเกณฑ์ที่ยอมรับได้ และไม่มีรายการเสี่ยงสูงค้างอยู่",
+      resultWarn: "% อยู่ในเกณฑ์ แต่ยังมีรายการเสี่ยงสูงที่ต้องจัดการ (ดูสถิติด้านบน)",
+      resultDanger: "เกินเกณฑ์ที่ยอมรับได้ — ควรทบทวนชุดบันทึกที่มีคะแนนสูงก่อนส่งผลงาน",
+      ivNote: "รหัส I (ข้อมูลนำเข้า) และรหัส V (การตรวจสอบ) ไม่นำมารวมในสูตรคำนวณ % นี้ เนื่องจากเป็นความเสี่ยงเชิงคุณภาพที่ควรพิจารณาเป็นจำนวนครั้ง ไม่ใช่สัดส่วน — หากมีชุดที่ติดรหัสความเสี่ยงสูงหรือยังค้าง V4 แม้เพียงชุดเดียว ควรจัดการให้เรียบร้อยก่อนส่งผลงาน ไม่ว่าค่า % โดยรวมจะต่ำเพียงใดก็ตาม",
+      overallRiskLbl: "ระดับความเสี่ยงโดยรวมของผลงานนี้ (ประเมินตนเอง)",
+      riskLow: "ต่ำ", riskMid: "ปานกลาง", riskHigh: "สูง",
+      s5title: "คำรับรองด้านจริยธรรมและทรัพย์สินทางปัญญา (ลิขสิทธิ์)",
+      s5hint: "ผู้วิจัย/ผู้เขียนพึงทำเครื่องหมายรับรองข้อความทุกข้อต่อไปนี้ ก่อนยื่นเครื่องมือนี้ประกอบการส่งผลงาน",
+      s6title: "การตรวจสอบและรับรองโดยอาจารย์ที่ปรึกษา/ผู้ตรวจสอบ",
+      s6hint: "สำหรับอาจารย์ที่ปรึกษา หัวหน้าโครงการ หรือบรรณาธิการผู้รับผิดชอบ ทำเครื่องหมายรับรองหลังตรวจทานส่วนที่ ๓ แล้ว",
+      s7title: "การลงนามรับรอง",
+      sigResearcherLbl: "ผู้วิจัย/ผู้เขียนหลัก (พิมพ์ชื่อแทนการลงนาม)",
+      sigDateLbl: "วันที่",
+      sigCoLbl: "ผู้เขียนร่วม (ถ้ามี)",
+      sigAdvisorLbl: "อาจารย์ที่ปรึกษา/หัวหน้าโครงการ/ผู้ตรวจสอบ",
+      sigNote: "เอกสารอิเล็กทรอนิกส์ฉบับนี้ใช้การพิมพ์ชื่อแทนลายมือชื่อ หากหน่วยงานต้องการลายมือชื่อจริง โปรดพิมพ์เอกสารนี้ (ปุ่ม “พิมพ์ / บันทึกเป็น PDF” ด้านบน) แล้วลงนามด้วยตนเอง",
+      footerText: "เครื่องมือตรวจสอบและรับรองจริยธรรมการใช้ปัญญาประดิษฐ์ในงานวิจัย — ฉบับอิเล็กทรอนิกส์  |  ใช้คู่กับคู่มือการใช้เครื่องมือสำหรับคำอธิบายรหัสและตัวอย่างโดยละเอียด",
+      ovH: ["ส่วนที่","ชื่อส่วน","ใครเป็นผู้กรอก","วัตถุประสงค์โดยย่อ"],
+      ovRows: [
+        ["๑","ข้อมูลทั่วไปของผู้วิจัยและผลงาน","ผู้วิจัย/ผู้เขียนหลัก","ระบุตัวตนและขอบเขตของผลงาน"],
+        ["๒","คำประกาศเบื้องต้น","ผู้วิจัย/ผู้เขียนหลัก","ประกาศว่ามีการใช้ AI หรือไม่"],
+        ["๓","ชุดบันทึกการใช้งานปัญญาประดิษฐ์","ผู้วิจัย/ผู้เขียนหลัก","กรอก 1 ชุดต่อการใช้ AI 1 ครั้ง"],
+        ["๔","สรุปและประเมินความเสี่ยงโดยรวม","ผู้วิจัย/ผู้เขียนหลัก","คำนวณ % อัตโนมัติจากทุกชุดบันทึก"],
+        ["๕","คำรับรองด้านจริยธรรมและลิขสิทธิ์","ผู้วิจัย/ผู้เขียนหลัก","ยืนยันการปฏิบัติตามหลักจริยธรรม"],
+        ["๖","การตรวจสอบโดยอาจารย์ที่ปรึกษา/ผู้ตรวจสอบ","อาจารย์ที่ปรึกษา/บรรณาธิการ","ตรวจทานและรับรองความเหมาะสม"],
+        ["๗","การลงนามรับรอง","ทุกฝ่ายที่เกี่ยวข้อง","ยืนยันความถูกต้อง"]
+      ],
+      mH: ["ชุดรหัส","รหัส","ความหมายโดยย่อ","ค่าแทนสำหรับคำนวณ"],
+      grpCat: "หมวดการใช้งาน (ไม่มีคะแนน)", grpExt: "ระดับขอบเขต (นำไปคำนวณ %)",
+      grpInp: "ข้อมูลนำเข้า (นับจำนวนครั้ง)", grpVer: "วิธีตรวจสอบ (นับจำนวนครั้ง)",
+      valNone: "ใช้จำแนกประเภทเท่านั้น ไม่มีค่าแทน",
+      valPts: " คะแนน",
+      valZeroSafe: "0 (ไม่นับเป็นความเสี่ยง)",
+      valFlag: "นับ 1 ครั้ง (ความเสี่ยงสูง)",
+      valFlagV4: "นับ 1 ครั้ง (เสี่ยงสูง ต้องแก้ไข)",
+      valVerified: "0 (ตรวจสอบแล้ว ไม่เสี่ยง)",
+      legendGreen: "สีเขียว", legendGreenTxt: " = มีค่าแทนเป็นตัวเลข นำไปรวมคำนวณ %   ",
+      legendOrange: "สีส้ม", legendOrangeTxt: " = ความเสี่ยงสูง นับเป็นจำนวนครั้ง   ",
+      legendGray: "สีเทา", legendGrayTxt: " = ไม่มีความเสี่ยงหรือไม่มีค่าแทน"
+    },
+    en: {
+      h1: "AI Research-Use Ethics Declaration and Verification Instrument",
+      hsub1: "เครื่องมือตรวจสอบและรับรองจริยธรรมการใช้ปัญญาประดิษฐ์ในงานวิจัย",
+      hsub2: "For theses, dissertations, academic articles, and independent-study reports, in any field",
+      hbadge: "Electronic edition — auto-calculates the % score",
+      btnAddEntry: "+ Add usage entry",
+      btnExport: "Download data (JSON)",
+      btnImport: "Import saved data",
+      btnPrint: "Print / Save as PDF",
+      instrLabel: "How to use this instrument:",
+      instrBody: "This instrument records and certifies the use of Artificial Intelligence (AI) in producing academic work, to ensure transparency, traceability, and protection against academic-integrity or intellectual-property violations. Every option carries both a reference code and a plain-language explanation, so it can be filled in without consulting any other document. Your average AI-dependency level is calculated automatically as a percentage in Part 4. This page does not save data automatically — please click “Download data (JSON)” periodically to back up your progress, and “Import saved data” to resume later.",
+      refSummary: "Show/hide the full code & score quick-reference table",
+      s1title: "General Information About the Researcher and the Work",
+      gNameLbl: "Researcher / lead author name",
+      gCoLbl: "Co-author(s) (if any)",
+      gInstLbl: "Institution / program",
+      gTypeLbl: "Type of work",
+      optChoose: "— Select —",
+      optThesis: "Thesis", optDissertation: "Dissertation", optResearchArticle: "Research article",
+      optAcademicArticle: "Academic article", optReport: "Independent study report", optOther: "Other",
+      gTitleLbl: "Title of the work",
+      gAdvisorLbl: "Advisor / project lead (if any)",
+      gPeriodLbl: "Period the work was produced",
+      s2title: "Preliminary Declaration of AI Use",
+      declNoLbl: "AI was not used in producing this work (skip to Part 7)",
+      declYesLbl: "AI was used (complete Parts 3–6 in full)",
+      s3title: "AI Usage Log Entries",
+      s3hint: "Complete one entry per (1 AI tool) × (1 type of use) × (1 part of the work). If you used multiple AI tools in the same step, or the same tool across different parts, always log them as separate entries.",
+      emptyState: "No entries yet. Click “+ Add usage entry” to begin.",
+      entryTitlePrefix: "Entry",
+      btnRemove: "Remove entry",
+      fToolLbl: "AI tool used (name)",
+      fVersionLbl: "Version / model",
+      fDateLbl: "Date used",
+      fPartLbl: "Part of the work",
+      fPartPh: "e.g. Chapter 2, Section 2.3",
+      q1: "1) Category of use", q1hint: "select all that apply",
+      q2: "2) Extent of use", q2hint: "select the single best match",
+      q3: "3) Data/documents entered into the AI", q3hint: "select all that apply",
+      q4: "4) Summary of the prompt(s) used",
+      q5: "5) How the output was verified", q5hint: "select all that apply",
+      q6: "6) Your confidence in the accuracy of this output",
+      q7: "7) Do you accept full responsibility for this output?",
+      confHigh: "High confidence", confMid: "Medium", confLow: "Low confidence",
+      acctYes: "Accept", acctNo: "Do not accept",
+      acctReasonPh: "If not accepted, state the reason / remediation plan",
+      s4title: "Overall Risk Summary and Assessment",
+      statEntries: "Total entries", statSumL: "Sum of L scores",
+      statHighRisk: "High-risk input entries", statPendingV4: "Entries pending verification (V4)",
+      formulaLabel: "Formula:", formulaText: "Average AI-dependency (%) = [Sum of L scores ÷ (5 × number of entries)] × 100",
+      thresholdLbl: "Acceptable threshold (set your own):",
+      thresholdHint: "(A common default is 40% — adjust based on your or your institution's judgment)",
+      thresholdGaugeLabel: "Threshold",
+      resultNeutral: "No entries yet",
+      resultOk: "Within the acceptable threshold, with no outstanding high-risk items",
+      resultWarn: "% is within threshold, but high-risk items still need attention (see stats above)",
+      resultDanger: "Exceeds the acceptable threshold — review the highest-scoring entries before submitting",
+      ivNote: "The I (input data) and V (verification) codes are not included in this % formula, because they represent qualitative risks best tracked as counts rather than proportions — if even a single entry carries a high-risk input code or a pending V4, it should be resolved before submission regardless of how low the overall % is.",
+      overallRiskLbl: "Overall risk level of this work (self-assessed)",
+      riskLow: "Low", riskMid: "Medium", riskHigh: "High",
+      s5title: "Ethics and Intellectual-Property Certification",
+      s5hint: "The researcher/author should check every statement below before submitting this instrument with their work.",
+      s6title: "Review and Certification by the Advisor / Reviewer",
+      s6hint: "For the advisor, project lead, or responsible editor — check off after reviewing Part 3.",
+      s7title: "Signatures",
+      sigResearcherLbl: "Researcher / lead author (typed name in lieu of signature)",
+      sigDateLbl: "Date",
+      sigCoLbl: "Co-author (if any)",
+      sigAdvisorLbl: "Advisor / project lead / reviewer",
+      sigNote: "This electronic document uses a typed name in place of a handwritten signature. If your institution requires an original signature, print this document (the “Print / Save as PDF” button above) and sign it by hand.",
+      footerText: "AI Research-Use Ethics Declaration and Verification Instrument — electronic edition  |  Use alongside the companion user guide for detailed code explanations and worked examples.",
+      ovH: ["Part","Name","Who completes it","Purpose"],
+      ovRows: [
+        ["1","General information","Researcher / lead author","States identity and scope of the work"],
+        ["2","Preliminary declaration","Researcher / lead author","States whether AI was used"],
+        ["3","AI usage log entries","Researcher / lead author","One entry per use of AI"],
+        ["4","Overall risk summary","Researcher / lead author","Auto-calculates % from all entries"],
+        ["5","Ethics & copyright certification","Researcher / lead author","Confirms compliance with ethics principles"],
+        ["6","Advisor / reviewer check","Advisor / editor","Reviews and certifies appropriateness"],
+        ["7","Signatures","All relevant parties","Confirms accuracy"]
+      ],
+      mH: ["Code set","Code","Brief meaning","Value used in calculation"],
+      grpCat: "Category of use (unscored)", grpExt: "Extent level (used in % calc)",
+      grpInp: "Input data (counted as flags)", grpVer: "Verification (counted as flags)",
+      valNone: "Classification only — no numeric value",
+      valPts: " point(s)",
+      valZeroSafe: "0 (not counted as risk)",
+      valFlag: "Counted once (high risk)",
+      valFlagV4: "Counted once (high risk — must resolve)",
+      valVerified: "0 (already verified — no risk)",
+      legendGreen: "Green", legendGreenTxt: " = has a numeric value, included in the % calculation   ",
+      legendOrange: "Orange", legendOrangeTxt: " = high risk, counted as a flag   ",
+      legendGray: "Gray", legendGrayTxt: " = no risk or no numeric value"
+    }
+  };
+
+  function T(key){ return I18N[state.lang][key]; }
+
+  // ============== Bilingual data (code, {th,en} label, {th,en} note, ...) ==============
+  var CATS = [
+    ["A", {th:"ภาษาและการเขียน", en:"Language & writing"},
+          {th:"ตรวจไวยากรณ์/พิสูจน์อักษร เรียบเรียงประโยคใหม่ ขัดเกลาภาษา วางโครงร่าง หรือสร้างเนื้อหาใหม่",
+           en:"Grammar/proofreading, rewording, polishing, outlining, or drafting new content"}],
+    ["B", {th:"วิจัยและระดมสมอง", en:"Research & brainstorming"},
+          {th:"ระดมความคิด วางโครงเรื่อง หรือสรุปเอกสาร/บทความงานวิจัย",
+           en:"Brainstorming, outlining, or summarizing papers/documents"}],
+    ["C", {th:"แปลภาษา/สืบค้นต้นฉบับ", en:"Translation / primary-source lookup"},
+          {th:"แปลข้อความข้ามภาษา หรือสืบค้นตำรา คัมภีร์ เอกสารต้นฉบับเฉพาะทาง",
+           en:"Cross-language translation, or retrieving specialised texts/scriptures/primary sources"}],
+    ["D", {th:"การวิเคราะห์ข้อมูล", en:"Data analysis"},
+          {th:"วิเคราะห์เชิงปริมาณ จัดหมวดหมู่/วิเคราะห์เชิงคุณภาพ สร้างภาพ/แผนภูมิ",
+           en:"Quantitative analysis, qualitative coding/analysis, or generating charts/figures"}],
+    ["E", {th:"การอ้างอิงและบรรณานุกรม", en:"Citations & bibliography"},
+          {th:"จัดรูปแบบการอ้างอิง หรือค้นหา/แนะนำแหล่งอ้างอิงใหม่",
+           en:"Formatting citations, or finding/suggesting new references"}],
+    ["F", {th:"อื่น ๆ", en:"Other"},
+          {th:"โปรดระบุลักษณะการใช้งานในช่องหมายเหตุ", en:"Please specify the nature of use in the prompt/notes field"}]
+  ];
+  var EXTENTS = [
+    ["L1",1,{th:"ตรวจสอบ/พิสูจน์อักษรเท่านั้น", en:"Proofreading only"},
+             {th:"เนื้อหาความคิดเป็นของผู้เขียนทั้งหมด ความเสี่ยงต่ำสุด", en:"All ideas remain the author's own — lowest risk"}],
+    ["L2",2,{th:"ปรับสำนวน/เรียบเรียงประโยคใหม่", en:"Rewording / restyling"},
+             {th:"เนื้อหาความคิดเดิมยังเป็นของผู้เขียน", en:"The original ideas remain the author's own"}],
+    ["L3",3,{th:"ช่วยวางโครงร่าง/ให้แนวทาง", en:"Helped outline / suggested direction"},
+             {th:"ผู้เขียนเป็นผู้เขียนเนื้อหาเองทั้งหมด", en:"The author wrote all the content themself"}],
+    ["L4",4,{th:"ร่างเนื้อหาบางส่วน แล้วผู้เขียนแก้ไขอย่างมีนัยสำคัญ", en:"Drafted part of the content, then substantially revised by the author"},
+             {th:"ก่อนนำไปใช้จริง", en:"before being used in the final work"}],
+    ["L5",5,{th:"สร้างเนื้อหา/ผลลัพธ์เกือบทั้งหมดของส่วนนี้", en:"Generated nearly all of this section's content"},
+             {th:"ความเสี่ยงสูงสุด ควรพิจารณาอย่างรอบคอบและเปิดเผยละเอียดที่สุด", en:"Highest risk — consider carefully and disclose in full detail"}]
+  ];
+  var INPUTS = [
+    ["I0",{th:"ไม่ได้ป้อนข้อมูล/เอกสารใดเข้าระบบ", en:"No data or documents entered"},
+          {th:"เช่น ถามคำถามทั่วไปโดยไม่แนบไฟล์ ความเสี่ยงต่ำสุด", en:"e.g. a general question with no attached file — lowest risk"}, false],
+    ["I1",{th:"ข้อมูลสาธารณะที่เผยแพร่แล้วและอนุญาตให้ใช้ได้", en:"Public data already published and licensed for use"}, {th:"", en:""}, false],
+    ["I2",{th:"ข้อมูล/เอกสารที่มีลิขสิทธิ์ของผู้อื่น", en:"Data/documents copyrighted by someone else"},
+          {th:"ข้อควรระวัง: ต้องตรวจสอบเงื่อนไขการใช้งานก่อนเสมอ มิฉะนั้นอาจละเมิดลิขสิทธิ์",
+           en:"Caution: always check the terms of use first, or this may infringe copyright"}, true],
+    ["I3",{th:"ข้อมูลส่วนบุคคล/ข้อมูลจากผู้ให้สัมภาษณ์", en:"Personal data / interviewee data"},
+          {th:"ข้อควรระวัง: ห้ามป้อนเข้าระบบสาธารณะโดยไม่ปกปิดตัวตน/ไม่ได้รับอนุญาต",
+           en:"Caution: never enter into a public system without de-identifying and obtaining consent"}, true],
+    ["I4",{th:"ผลงานของผู้วิจัยเองที่ยังไม่เผยแพร่", en:"The researcher's own unpublished work"},
+          {th:"ข้อควรระวัง: ระวังข้อมูลรั่วไหลหรือถูกนำไปฝึกฝนแบบจำลองต่อ",
+           en:"Caution: beware of leaks or of the data being used for further model training"}, true]
+  ];
+  var VERIFIES = [
+    ["V1",{th:"ตรวจสอบกับต้นฉบับปฐมภูมิโดยตรง", en:"Verified directly against the primary source"},
+          {th:"เช่น เทียบกับตัวเล่ม/หน้าในคัมภีร์หรือเอกสารต้นทางจริง", en:"e.g. checked against the actual volume/page in the original text"}, false],
+    ["V2",{th:"ตรวจสอบกับฐานข้อมูลวิชาการ/DOI", en:"Verified against an academic database/DOI"},
+          {th:"เช่น Google Scholar, Scopus, ThaiJo", en:"e.g. Google Scholar, Scopus, ThaiJo"}, false],
+    ["V3",{th:"ให้อาจารย์ที่ปรึกษา/ผู้เชี่ยวชาญตรวจทาน", en:"Reviewed by an advisor / subject-matter expert"}, {th:"", en:""}, false],
+    ["V4",{th:"ยังไม่ได้ตรวจสอบ", en:"Not yet verified"},
+          {th:"สถานะชั่วคราว ต้องกลับมาตรวจสอบให้เสร็จก่อนส่งผลงานฉบับสมบูรณ์",
+           en:"Temporary status — must be resolved before the final work is submitted"}, true]
+  ];
+  var CERTS = [
+    {th:"ข้าพเจ้าได้ตรวจสอบและยืนยันความถูกต้องของการอ้างอิงทุกรายการที่ปัญญาประดิษฐ์แนะนำกับแหล่งข้อมูลปฐมภูมิแล้ว ไม่มีรายการใดเป็นการอ้างอิงที่กุขึ้นหรือคลาดเคลื่อน",
+     en:"I have checked and verified every citation suggested by AI against its primary source; none are fabricated or inaccurate."},
+    {th:"ข้าพเจ้ายืนยันว่าเนื้อหาหลัก การตีความ และข้อวินิจฉัยทางวิชาการทั้งหมดในผลงานนี้เป็นผลจากดุลยพินิจของข้าพเจ้าเอง มิใช่การคัดลอกผลลัพธ์จากปัญญาประดิษฐ์มาใช้โดยตรงโดยไม่ผ่านการเรียบเรียงหรือตรวจสอบ",
+     en:"I confirm that the core content, interpretation, and academic judgments in this work are my own, not copied directly from AI output without review or revision."},
+    {th:"ข้าพเจ้าไม่ได้นำข้อมูลส่วนบุคคล ข้อมูลที่เป็นความลับของผู้ให้ข้อมูล/ผู้เข้าร่วมวิจัย หรือผลงานที่ยังไม่เผยแพร่ เข้าสู่ระบบปัญญาประดิษฐ์สาธารณะโดยไม่ได้รับอนุญาต",
+     en:"I have not entered personal data, confidential participant information, or unpublished work into a public AI system without authorization."},
+    {th:"ข้าพเจ้าไม่ได้นำผลงานที่มีลิขสิทธิ์ของผู้อื่นป้อนเข้าสู่ปัญญาประดิษฐ์เพื่อผลิตซ้ำหรือดัดแปลงโดยไม่ได้รับอนุญาตจากเจ้าของลิขสิทธิ์ และได้ตรวจสอบเงื่อนไขการใช้งานของเครื่องมือที่ใช้แล้ว",
+     en:"I have not fed copyrighted third-party work into AI to reproduce or adapt it without permission, and I have checked the tool's terms of use."},
+    {th:"ข้าพเจ้าเข้าใจและยอมรับว่าจะรับผิดชอบแต่เพียงผู้เดียว (หรือร่วมกับผู้เขียนร่วม) ต่อความถูกต้อง ความสมบูรณ์ และการละเมิดทรัพย์สินทางปัญญาใด ๆ ที่อาจเกิดขึ้นจากการใช้ปัญญาประดิษฐ์ในผลงานนี้",
+     en:"I understand and accept sole (or shared, with co-authors) responsibility for the accuracy, completeness, and any IP infringement that may arise from AI use in this work."},
+    {th:"ข้าพเจ้าเข้าใจว่าการใช้ปัญญาประดิษฐ์โดยไม่เปิดเผย หรือการใช้นอกขอบเขตที่แจ้งไว้ในเครื่องมือนี้ ถือเป็นการละเมิดจรรยาบรรณทางวิชาการ",
+     en:"I understand that undisclosed AI use, or use beyond what is declared here, constitutes an academic integrity violation."},
+    {th:"ข้าพเจ้าได้อ่านหรือศึกษาเอกสารต้นฉบับจริงก่อนนำมาใช้สนับสนุนงานวิจัย พร้อมทั้งตรวจสอบความถูกต้องของข้อมูลและการอ้างอิงที่ปัญญาประดิษฐ์แนะนำทุกรายการแล้วอย่างรอบคอบ",
+     en:"I have read the actual primary sources before citing them, and have carefully verified every AI-suggested reference and fact."},
+    {th:"ข้าพเจ้าไม่มีชุดบันทึกใดในส่วนที่ ๓ ที่ยังกา “ยังไม่ได้ตรวจสอบ” ค้างอยู่โดยไม่มีเหตุผลอันสมควร",
+     en:"No entry in Part 3 is still marked “not yet verified” without a reasonable justification."},
+    {th:"(กรณีมีผู้เขียนร่วม) ข้าพเจ้าและผู้เขียนร่วมทุกคนรับทราบและเห็นชอบร่วมกันในการใช้ปัญญาประดิษฐ์ตามที่บันทึกไว้ในเครื่องมือนี้",
+     en:"(If co-authored) All co-authors are aware of and agree with the AI use recorded in this instrument."}
+  ];
+  var ADVISOR_ITEMS = [
+    {th:"ข้าพเจ้าได้ตรวจสอบชุดบันทึกการใช้ปัญญาประดิษฐ์ในส่วนที่ ๓ แล้ว และเห็นว่าขอบเขตการใช้งานที่ระบุไว้มีความเหมาะสมกับลักษณะของผลงานนี้",
+     en:"I have reviewed the AI usage entries in Part 3 and consider the declared extent of use appropriate for this type of work."},
+    {th:"ข้าพเจ้าได้สุ่มตรวจสอบความถูกต้องของการอ้างอิงหรือข้อมูลอ้างอิงอย่างน้อยบางส่วนแล้ว",
+     en:"I have spot-checked at least some of the citations or referenced data for accuracy."},
+    {th:"ข้าพเจ้าเห็นว่าเนื้อหาความคิดหลัก การตีความ และข้อวินิจฉัยทางวิชาการยังคงเป็นของผู้วิจัย/ผู้เขียนอย่างแท้จริง มิได้พึ่งพาปัญญาประดิษฐ์เกินขอบเขตที่เหมาะสม",
+     en:"I consider the core ideas, interpretation, and academic judgment to genuinely remain the researcher's/author's own, without excessive reliance on AI."},
+    {th:"ข้าพเจ้าอนุญาตให้ส่งผลงานนี้ประกอบการพิจารณาต่อไป โดยรับทราบคำประกาศการใช้ปัญญาประดิษฐ์ตามที่ระบุในเครื่องมือนี้ทั้งหมดแล้ว",
+     en:"I approve this work for submission for further consideration, having acknowledged the full AI-use declaration recorded in this instrument."}
+  ];
+
+  function pick(pair){ return pair ? (pair[state.lang] || pair.th || "") : ""; }
+  function escapeHTML(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function escapeAttr(s){ return escapeHTML(s).replace(/"/g,"&quot;"); }
+
+  function newEntry(){
+    state.counter++;
+    return {
+      id: "e"+state.counter, tool:"", version:"", date:"", part:"",
+      categories:[], extent:null, extentScore:0,
+      inputs:[], prompt:"", verifications:[],
+      confidence:null, accountable:null, accountableReason:""
+    };
+  }
+
+  function entryHTML(e, idx){
+    var id = e.id;
+    function chk(arr, val){ return arr.indexOf(val)>-1 ? "checked" : ""; }
+
+    var catOpts = CATS.map(function(c){
+      return '<label class="opt"><input type="checkbox" data-entry-id="'+id+'" data-field="categories" data-value="'+c[0]+'" '+chk(e.categories,c[0])+'>' +
+             '<span><span class="code">'+c[0]+'</span> '+pick(c[1])+' <span class="note">('+pick(c[2])+')</span></span></label>';
+    }).join("");
+
+    var extOpts = EXTENTS.map(function(x){
+      var checked = e.extent===x[0] ? "checked" : "";
+      return '<label class="opt"><input type="radio" name="extent-'+id+'" data-entry-id="'+id+'" data-field="extent" data-value="'+x[0]+'" data-score="'+x[1]+'" '+checked+'>' +
+             '<span><span class="code">'+x[0]+'</span> '+pick(x[2])+' <span class="score-chip">'+x[1]+T("valPts")+'</span> <span class="note">('+pick(x[3])+')</span></span></label>';
+    }).join("");
+
+    var inpOpts = INPUTS.map(function(i){
+      var noteStr = pick(i[2]);
+      return '<label class="opt"><input type="checkbox" data-entry-id="'+id+'" data-field="inputs" data-value="'+i[0]+'" '+chk(e.inputs,i[0])+'>' +
+             '<span><span class="code">'+i[0]+'</span> '+pick(i[1])+(noteStr?' <span class="note">('+noteStr+')</span>':'')+'</span></label>';
+    }).join("");
+
+    var verOpts = VERIFIES.map(function(v){
+      var noteStr = pick(v[2]);
+      return '<label class="opt"><input type="checkbox" data-entry-id="'+id+'" data-field="verifications" data-value="'+v[0]+'" '+chk(e.verifications,v[0])+'>' +
+             '<span><span class="code">'+v[0]+'</span> '+pick(v[1])+(noteStr?' <span class="note">('+noteStr+')</span>':'')+'</span></label>';
+    }).join("");
+
+    var confRow = ["high","mid","low"].map(function(c){
+      var labels = {high:T("confHigh"), mid:T("confMid"), low:T("confLow")};
+      var checked = e.confidence===c ? "checked" : "";
+      return '<label><input type="radio" name="conf-'+id+'" data-entry-id="'+id+'" data-field="confidence" data-value="'+c+'" '+checked+'> '+labels[c]+'</label>';
+    }).join("");
+
+    var acctRow = ["yes","no"].map(function(a){
+      var labels = {yes:T("acctYes"), no:T("acctNo")};
+      var checked = e.accountable===a ? "checked" : "";
+      return '<label><input type="radio" name="acct-'+id+'" data-entry-id="'+id+'" data-field="accountable" data-value="'+a+'" '+checked+'> '+labels[a]+'</label>';
+    }).join("");
+
+    var titleText = T("entryTitlePrefix")+" "+(idx+1)+(e.tool? " — "+e.tool : "");
+
+    return '' +
+    '<div class="card entry-card" data-card-id="'+id+'">' +
+      '<div class="entry-head"><span class="title">'+escapeHTML(titleText)+'</span>' +
+        '<button class="btn small danger-outline no-print" data-remove="'+id+'">'+T("btnRemove")+'</button></div>' +
+      '<div class="field-grid">' +
+        '<div><label class="field-label">'+T("fToolLbl")+'</label><input type="text" data-entry-id="'+id+'" data-field="tool" value="'+escapeAttr(e.tool)+'"></div>' +
+        '<div><label class="field-label">'+T("fVersionLbl")+'</label><input type="text" data-entry-id="'+id+'" data-field="version" value="'+escapeAttr(e.version)+'"></div>' +
+        '<div><label class="field-label">'+T("fDateLbl")+'</label><input type="date" data-entry-id="'+id+'" data-field="date" value="'+escapeAttr(e.date)+'"></div>' +
+        '<div><label class="field-label">'+T("fPartLbl")+'</label><input type="text" data-entry-id="'+id+'" data-field="part" placeholder="'+T("fPartPh")+'" value="'+escapeAttr(e.part)+'"></div>' +
+      '</div>' +
+      '<div class="q-label">'+T("q1")+' <span class="q-hint">('+T("q1hint")+')</span></div>' + catOpts +
+      '<div class="q-label">'+T("q2")+' <span class="q-hint">('+T("q2hint")+')</span></div>' + extOpts +
+      '<div class="q-label">'+T("q3")+' <span class="q-hint">('+T("q3hint")+')</span></div>' + inpOpts +
+      '<div class="q-label">'+T("q4")+'</div>' +
+      '<textarea data-entry-id="'+id+'" data-field="prompt">'+escapeHTML(e.prompt)+'</textarea>' +
+      '<div class="q-label">'+T("q5")+' <span class="q-hint">('+T("q5hint")+')</span></div>' + verOpts +
+      '<div class="q-label">'+T("q6")+'</div>' +
+      '<div class="radio-row">'+confRow+'</div>' +
+      '<div class="q-label">'+T("q7")+'</div>' +
+      '<div class="radio-row">'+acctRow+'</div>' +
+      '<input type="text" style="margin-top:8px;" placeholder="'+T("acctReasonPh")+'" data-entry-id="'+id+'" data-field="accountableReason" value="'+escapeAttr(e.accountableReason)+'">' +
+    '</div>';
+  }
+
+  function renderEntries(){
+    var c = document.getElementById("entriesContainer");
+    if(state.entries.length===0){
+      c.innerHTML = '<div class="empty-state">'+T("emptyState")+'</div>';
+      return;
+    }
+    c.innerHTML = state.entries.map(entryHTML).join("");
+  }
+
+  function renderChecklist(containerId, items, prefix){
+    var c = document.getElementById(containerId);
+    c.innerHTML = items.map(function(t, i){
+      return '<label class="cert-item"><input type="checkbox" id="'+prefix+i+'"><span>'+pick(t)+'</span></label>';
+    }).join("");
+  }
+
+  function renderOverviewTable(){
+    var t = document.getElementById("overviewTable");
+    var h = T("ovH"), rows = T("ovRows");
+    var html = '<tr><th>'+h[0]+'</th><th>'+h[1]+'</th><th>'+h[2]+'</th><th>'+h[3]+'</th></tr>';
+    rows.forEach(function(r){
+      html += '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>';
+    });
+    t.innerHTML = html;
+  }
+
+  function renderMasterTable(){
+    var t = document.getElementById("masterTable");
+    var h = T("mH");
+    var rows = [];
+    CATS.forEach(function(c){ rows.push([T("grpCat"), c[0], pick(c[1]), T("valNone"), "tag-none"]); });
+    EXTENTS.forEach(function(x){ rows.push([T("grpExt"), x[0], pick(x[2]), x[1]+T("valPts"), "tag-scored"]); });
+    INPUTS.forEach(function(i){
+      var val = i[3] ? T("valFlag") : T("valZeroSafe");
+      rows.push([T("grpInp"), i[0], pick(i[1]), val, i[3] ? "tag-flag" : "tag-none"]);
+    });
+    VERIFIES.forEach(function(v){
+      var val = v[0]==="V4" ? T("valFlagV4") : T("valVerified");
+      rows.push([T("grpVer"), v[0], pick(v[1]), val, v[0]==="V4" ? "tag-flag" : "tag-none"]);
+    });
+    var html = '<tr><th>'+h[0]+'</th><th>'+h[1]+'</th><th>'+h[2]+'</th><th>'+h[3]+'</th></tr>';
+    rows.forEach(function(r){
+      html += '<tr><td>'+r[0]+'</td><td><strong>'+r[1]+'</strong></td><td>'+r[2]+'</td><td class="'+r[4]+'">'+r[3]+'</td></tr>';
+    });
+    t.innerHTML = html;
+
+    document.getElementById("masterLegend").innerHTML =
+      '<span class="swatch tag-scored">'+T("legendGreen")+'</span>'+T("legendGreenTxt")+
+      '<span class="swatch tag-flag">'+T("legendOrange")+'</span>'+T("legendOrangeTxt")+
+      '<span class="swatch tag-none">'+T("legendGray")+'</span>'+T("legendGrayTxt");
+  }
+
+  function recalc(){
+    var entries = state.entries;
+    var n = entries.length;
+    var sumL = entries.reduce(function(s,e){ return s + (e.extentScore||0); }, 0);
+    var percent = n>0 ? (sumL/(5*n))*100 : 0;
+    var highRisk = entries.filter(function(e){
+      return e.inputs.some(function(v){ return v==="I2"||v==="I3"||v==="I4"; });
+    }).length;
+    var pendingV4 = entries.filter(function(e){ return e.verifications.indexOf("V4")>-1; }).length;
+    var threshold = Number(document.getElementById("thresholdInput").value) || 0;
+
+    document.getElementById("sumEntries").textContent = n;
+    document.getElementById("sumL").textContent = sumL;
+    document.getElementById("highRiskCount").textContent = highRisk;
+    document.getElementById("pendingVerifyCount").textContent = pendingV4;
+    document.getElementById("percentDisplay").textContent = percent.toFixed(1)+"%";
+    document.getElementById("formulaText").textContent = T("formulaText");
+    document.getElementById("formulaLine").textContent =
+      (state.lang==="th"?"แทนค่า: ":"Substituting: ")+"["+sumL+" ÷ (5 × "+n+")] × 100 = "+percent.toFixed(1)+"%";
+    document.getElementById("ivNote").textContent = T("ivNote");
+
+    var fill = document.getElementById("gaugeFill");
+    fill.style.width = Math.min(percent,100)+"%";
+    var markEl = document.getElementById("gaugeThresholdMark");
+    markEl.style.left = Math.min(threshold,100)+"%";
+    markEl.setAttribute("data-label", T("thresholdGaugeLabel"));
+
+    var badge = document.getElementById("percentResult");
+    if(n===0){
+      badge.textContent = T("resultNeutral");
+      badge.className = "result-badge neutral";
+      fill.style.background = "var(--text-soft)";
+    } else if(percent<=threshold && highRisk===0 && pendingV4===0){
+      badge.textContent = T("resultOk");
+      badge.className = "result-badge ok";
+      fill.style.background = "var(--green)";
+    } else if(percent<=threshold){
+      badge.textContent = T("resultWarn");
+      badge.className = "result-badge warn";
+      fill.style.background = "var(--amber)";
+    } else {
+      badge.textContent = T("resultDanger");
+      badge.className = "result-badge danger";
+      fill.style.background = "var(--red)";
+    }
+  }
+
+  function addEntry(){
+    state.entries.push(newEntry());
+    renderEntries();
+    recalc();
+  }
+  function removeEntry(id){
+    state.entries = state.entries.filter(function(e){ return e.id!==id; });
+    renderEntries();
+    recalc();
+  }
+
+  document.getElementById("entriesContainer").addEventListener("input", handleEntryChange);
+  document.getElementById("entriesContainer").addEventListener("change", handleEntryChange);
+  document.getElementById("entriesContainer").addEventListener("click", function(ev){
+    var node = ev.target;
+    var root = this;
+    while(node && node !== root){
+      if(node.getAttribute && node.getAttribute("data-remove")){
+        removeEntry(node.getAttribute("data-remove"));
+        return;
+      }
+      node = node.parentNode;
+    }
+  });
+
+  function findEntry(id){
+    for(var i=0;i<state.entries.length;i++){
+      if(state.entries[i].id===id) return state.entries[i];
+    }
+    return null;
+  }
+
+  function handleEntryChange(ev){
+    var t = ev.target;
+    var id = t.getAttribute("data-entry-id");
+    if(!id) return;
+    var entry = findEntry(id);
+    if(!entry) return;
+    var field = t.getAttribute("data-field");
+    if(!field) return;
+
+    if(t.type==="checkbox"){
+      var val = t.getAttribute("data-value");
+      if(t.checked){ if(entry[field].indexOf(val)===-1) entry[field].push(val); }
+      else { entry[field] = entry[field].filter(function(v){ return v!==val; }); }
+    } else if(t.type==="radio"){
+      entry[field] = t.getAttribute("data-value");
+      if(field==="extent"){ entry.extentScore = Number(t.getAttribute("data-score")); }
+    } else {
+      entry[field] = t.value;
+      if(field==="tool"){
+        var head = document.querySelector('[data-card-id="'+id+'"] .entry-head .title');
+        if(head){
+          var idx = state.entries.indexOf(entry);
+          head.textContent = T("entryTitlePrefix")+" "+(idx+1)+(entry.tool? " — "+entry.tool : "");
+        }
+      }
+    }
+    recalc();
+  }
+
+  document.getElementById("thresholdInput").addEventListener("input", recalc);
+  document.getElementById("addEntryBtn").addEventListener("click", addEntry);
+  document.getElementById("addEntryBtnTop").addEventListener("click", addEntry);
+
+  function updateDeclVisibility(){
+    var isNo = document.getElementById("declNo").checked;
+    document.getElementById("aiSections").style.display = isNo ? "none" : "block";
+  }
+  document.getElementById("declNo").addEventListener("change", updateDeclVisibility);
+  document.getElementById("declYes").addEventListener("change", updateDeclVisibility);
+
+  document.getElementById("printBtn").addEventListener("click", function(){ window.print(); });
+
+  // ============== Export / Import ==============
+  function collectAll(){
+    function v(id){ var e=document.getElementById(id); return e? e.value : ""; }
+    function c(id){ var e=document.getElementById(id); return e? e.checked : false; }
+    function radioVal(name){
+      var checked = document.querySelector('input[name="'+name+'"]:checked');
+      return checked ? checked.value : null;
+    }
+    var certChecked = CERTS.map(function(_,i){ return c("cert"+i); });
+    var advChecked = ADVISOR_ITEMS.map(function(_,i){ return c("adv"+i); });
+    return {
+      lang: state.lang,
+      general:{ name:v("gName"), coAuthors:v("gCoAuthors"), institution:v("gInstitution"),
+                workType:v("gWorkType"), title:v("gTitle"), advisor:v("gAdvisor"), period:v("gPeriod") },
+      declaration: radioVal("decl"),
+      entries: state.entries,
+      counter: state.counter,
+      threshold: Number(v("thresholdInput"))||40,
+      overallRisk: radioVal("overallRisk"),
+      certChecked: certChecked,
+      advChecked: advChecked,
+      signatures:{ researcher:v("sigResearcher"), researcherDate:v("sigResearcherDate"),
+                   coAuthor:v("sigCoAuthor"), coAuthorDate:v("sigCoAuthorDate"),
+                   advisor:v("sigAdvisor"), advisorDate:v("sigAdvisorDate") }
+    };
+  }
+
+  document.getElementById("exportBtn").addEventListener("click", function(){
+    var data = collectAll();
+    var blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    var stamp = new Date().toISOString().slice(0,10);
+    a.href = url; a.download = "ai-ethics-tool-"+stamp+".json";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById("importLabelBtn").addEventListener("click", function(){
+    document.getElementById("importInput").click();
+  });
+  document.getElementById("importInput").addEventListener("change", function(ev){
+    var file = ev.target.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){
+      try{
+        var data = JSON.parse(reader.result);
+        applyData(data);
+      }catch(err){
+        alert(state.lang==="th" ? "ไม่สามารถอ่านไฟล์นี้ได้ กรุณาตรวจสอบว่าเป็นไฟล์ JSON ที่ดาวน์โหลดจากเครื่องมือนี้"
+                                 : "Could not read this file. Please check it is a JSON file downloaded from this instrument.");
+      }
+    };
+    reader.readAsText(file);
+    ev.target.value = "";
+  });
+
+  function applyData(data){
+    function setV(id,val){ var e=document.getElementById(id); if(e && val!==undefined) e.value = val; }
+    function setC(id,val){ var e=document.getElementById(id); if(e) e.checked = !!val; }
+    if(data.lang==="th" || data.lang==="en"){ setLanguage(data.lang); }
+    if(data.general){
+      setV("gName", data.general.name); setV("gCoAuthors", data.general.coAuthors);
+      setV("gInstitution", data.general.institution); setV("gWorkType", data.general.workType);
+      setV("gTitle", data.general.title); setV("gAdvisor", data.general.advisor); setV("gPeriod", data.general.period);
+    }
+    if(data.declaration==="no"){ document.getElementById("declNo").checked = true; }
+    else { document.getElementById("declYes").checked = true; }
+    updateDeclVisibility();
+
+    state.entries = Array.isArray(data.entries) ? data.entries : [];
+    state.counter = data.counter || state.entries.length;
+    renderEntries();
+
+    setV("thresholdInput", data.threshold || 40);
+    if(data.overallRisk){
+      var r = document.querySelector('input[name="overallRisk"][value="'+data.overallRisk+'"]');
+      if(r) r.checked = true;
+    }
+    if(Array.isArray(data.certChecked)){
+      data.certChecked.forEach(function(v,i){ setC("cert"+i, v); });
+    }
+    if(Array.isArray(data.advChecked)){
+      data.advChecked.forEach(function(v,i){ setC("adv"+i, v); });
+    }
+    if(data.signatures){
+      setV("sigResearcher", data.signatures.researcher); setV("sigResearcherDate", data.signatures.researcherDate);
+      setV("sigCoAuthor", data.signatures.coAuthor); setV("sigCoAuthorDate", data.signatures.coAuthorDate);
+      setV("sigAdvisor", data.signatures.advisor); setV("sigAdvisorDate", data.signatures.advisorDate);
+    }
+    recalc();
+  }
+
+  // ============== Language switching ==============
+  function applyStaticI18n(){
+    var nodes = document.querySelectorAll("[data-i18n]");
+    for(var ni=0; ni<nodes.length; ni++){
+      var node = nodes[ni];
+      var key = node.getAttribute("data-i18n");
+      var val = T(key);
+      if(val!==undefined) node.textContent = val;
+    }
+    document.documentElement.lang = state.lang;
+    document.getElementById("pageTitleTag").textContent = T("h1");
+    document.getElementById("langTh").className = state.lang==="th" ? "active" : "";
+    document.getElementById("langEn").className = state.lang==="en" ? "active" : "";
+  }
+
+  function setLanguage(lang){
+    state.lang = lang;
+    applyStaticI18n();
+    renderOverviewTable();
+    renderMasterTable();
+    renderEntries();
+    renderChecklist("certList", CERTS, "cert");
+    renderChecklist("advisorList", ADVISOR_ITEMS, "adv");
+    recalc();
+  }
+  document.getElementById("langTh").addEventListener("click", function(){ setLanguage("th"); });
+  document.getElementById("langEn").addEventListener("click", function(){ setLanguage("en"); });
+
+  // รับคำสั่งเปลี่ยนภาษาจากแอพหลัก (เมื่อฝังใน iframe)
+  window.addEventListener("message", function(ev){ var d=ev.data; if(d && d.type==="mcu-set-lang" && (d.lang==="th"||d.lang==="en")) setLanguage(d.lang); });
+
+  // init
+  setLanguage("th");
+})();
+</script>
+</body>
+</html>
