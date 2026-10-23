@@ -69,7 +69,7 @@
   }
 
   auth.onAuthStateChanged(function(user){
-    if(user && allowed(user.email)) open(user);
+    if(user && user.emailVerified && allowed(user.email)) open(user);
     else {
       close();
       if(user){ say('บัญชี ' + user.email + ' ไม่ได้รับอนุญาตให้ใช้งาน', true); auth.signOut(); }
