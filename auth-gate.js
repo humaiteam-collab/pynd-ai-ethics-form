@@ -21,6 +21,7 @@
   if(!cfg.apiKey || /^PASTE/.test(cfg.apiKey)){
     say('ยังไม่ได้ตั้งค่า Firebase (แก้ไฟล์ firebase-config.js)', true);
     sendBtn.disabled = true;
+    var gb = document.getElementById('authGoogle'); if(gb) gb.disabled = true;
     return;
   }
   firebase.initializeApp(cfg);
@@ -44,6 +45,15 @@
       .catch(function(e){ say('ส่งไม่สำเร็จ: ' + e.message, true); })
       .then(function(){ sendBtn.disabled = false; });
   });
+  var googleBtn = document.getElementById('authGoogle');
+  if(googleBtn) googleBtn.addEventListener('click', function(){
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    auth.signInWithPopup(provider).catch(function(e){
+      if(e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') return;
+      say('เข้าสู่ระบบด้วย Google ไม่สำเร็จ: ' + e.message, true);
+    });
+  });
   if(outBtn) outBtn.addEventListener('click', function(){ auth.signOut(); });
 
   // Returning from the emailed link
@@ -60,6 +70,9 @@
 
   auth.onAuthStateChanged(function(user){
     if(user && allowed(user.email)) open(user);
-    else { close(); if(user) auth.signOut(); }
+    else {
+      close();
+      if(user){ say('บัญชี ' + user.email + ' ไม่ได้รับอนุญาตให้ใช้งาน', true); auth.signOut(); }
+    }
   });
 })();

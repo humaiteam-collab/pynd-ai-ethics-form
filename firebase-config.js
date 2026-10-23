@@ -9,6 +9,6 @@ window.FIREBASE_CONFIG = {
 
 // Who may use the tool. Leave both empty to allow any verified email.
 window.ALLOWED_ACCESS = {
-  domains: ["mcu.ac.th"],   // e.g. anyone@mcu.ac.th
+  domains: ["mcu.ac.th", "gmail.com"],   // gmail.com = ANY Gmail user; remove it and list people in emails[] to restrict
   emails: []                // extra individual addresses, e.g. "someone@gmail.com"
 };

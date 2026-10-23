@@ -3,7 +3,7 @@
 เว็บหน้าเดียว (static) เผยแพร่ผ่าน GitHub Pages ต้องเข้าสู่ระบบด้วยอีเมล (Firebase email-link)
 
 ## ตั้งค่าครั้งแรก
-1. Firebase console → สร้างโปรเจกต์ → Build → Authentication → Sign-in method → เปิด **Email link (passwordless)**
+1. Firebase console → สร้างโปรเจกต์ → Build → Authentication → Sign-in method → เปิด **Google** (ตั้งอีเมลซัพพอร์ตของโปรเจกต์) และ **Email link (passwordless)**
 2. Authentication → Settings → **Authorized domains** → เพิ่ม `<ชื่อบัญชี>.github.io`
 3. Project settings → Your apps → เพิ่ม Web app → คัดลอกค่าใส่ `firebase-config.js`
 4. ใน `firebase-config.js` แก้ `ALLOWED_ACCESS` (โดเมน/อีเมลที่อนุญาต)
